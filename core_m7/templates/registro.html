@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}{% endblock %}
+
+{% block contenido %}
+<section class="sección">
+    <div class="card contacto">
+        <div class="card-body">
+            <h5 class="card-title">Formulario de Registro</h5>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="row mb-4 ">
+                <div class="col-sm" text-rigth>
+                    {{ form.username.label }}  <!-- revisar que va aca -->
+                </div>
+                <div class="col-sm" text-left> 
+                    {{ form.username }}<!-- revisar que va aca -->
+                </div>
+            </div>
+          
+            <div class="row mb-4 "> 
+                <div class="col-sm" text-rigth>
+                    {{ form.first_name.label }}  <!-- revisar que va aca -->
+                </div>
+                <div class="col-sm" text-left> 
+                    {{ form.first_name }}<!-- revisar que va aca -->
+                </div>
+            </div>
+            <div class="row mb-4 ">
+                <div class="col-sm" text-rigth>
+                    {{ form.last_name.label }}  <!-- revisar que va aca -->
+                </div>
+                <div class="col-sm" text-left> 
+                    {{ form.last_name }}<!-- revisar que va aca -->
+                </div>
+            </div>
+            <div class="row mb-4 ">
+                <div class="col-sm" text-rigth>
+                    {{ form.email.label }}  <!-- revisar que va aca -->
+                </div>
+                <div class="col-sm" text-left> 
+                    {{ form.email }}<!-- revisar que va aca -->
+                </div>
+            </div>
+            
+            <div class="row mb-4 ">
+                <div class="col-sm" text-rigth>
+                    {{ form.direccion.label }}  <!-- revisar que va aca -->
+                </div>
+                <div class="col-sm" text-left> 
+                    {{ form.direccion }}<!-- revisar que va aca -->
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-sm" text-rigth>
+                    {{ form.telefono.label }}
+                </div>     
+                <div class="col-sm" text-left> 
+                    {{ form.telefono }} 
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-sm" text-rigth>
+                    {{ form.credito.label }}
+                </div>     
+                <div class="col-sm" text-left> 
+                    {{ form.credito }}
+                </div>    
+            </div>
+        
+            <div class="row mb-4">
+                <div class="col-sm" text-rigth>
+                    {{ form.group.label }}
+                </div>     
+                <div class="col-sm" text-left> 
+                    {{ form.group }}
+                </div>
+            </div>
+                
+            <button class = "mt-4" type="submit">Registrarse</button>
+          </form>
+          
+    </div>
+</section> 
+
+{% endblock %}
