@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
+{% block contenido %}
 <section class="section">
     <div class="container">
         <h2>Productos disponibles</h2>
         <div class="row">
             {% for producto in productos %}
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'imagenes/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
+            <div class="col-sm-4 mt-2 mb-2 mr- 2 ml-2">
+                <div class="card text-center mt-t" style="width: 400px; height: 400px;">
+                    <img src="{% get_media_prefix %}{{ producto.imagen }}" style="width: 300px; height: 200px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre }}</h5>
                         <p class="card-text">{{ producto.descripcion }}</p>
@@ -22,4 +22,3 @@
     </div>
 </section>
 {% endblock %}
-

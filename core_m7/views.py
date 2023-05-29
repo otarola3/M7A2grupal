@@ -12,11 +12,6 @@ import string
 connection = mail.get_connection()
 connection.open()
 
-           
-    
-
-
-
 # Create your views here.
 def index_welcome(request):
     return render(request, 'welcome.html')
@@ -121,6 +116,7 @@ def listar_productos(request):
     productos = Producto.objects.all()  # Obtener los primeros 5 productos disponibles
     print('Despues de extraer producto')
     print(productos)
-    return render(request, 'productos.html', {'productos': productos})
+    contexto = {'productos': productos}
+    return render(request, 'productos.html', contexto)
 
 
