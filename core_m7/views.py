@@ -3,8 +3,9 @@ from django.views.generic import TemplateView
 from django.contrib.auth.models import User, Group
 from core_m7.forms.formulario_1 import LoginForm, RegistrationForm, CompraForm
 from django.contrib.auth import authenticate, login
-from .models import Cliente, Producto, Detalle
+from .models import Cliente, Producto, Detalle, Pedido
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.core import mail
 import random
 import string
@@ -18,6 +19,9 @@ def index_welcome(request):
 
 class BienvenidaView(TemplateView):
     template_name = "bienvenida_login.html"
+
+class HistorialView(TemplateView):
+    template_name = "historial.html"
     
 def user_login(request):
     if request.method == 'POST':
@@ -80,7 +84,7 @@ def register(request):
                     [email],
                     connection=connection
                 )
-            emails.send()  
+            emails.send()
             
             # Agregar el usuario al grupo en la misma base de datos
             grupo.user_set.add(usuario_nuevo)
@@ -108,17 +112,22 @@ def listar_productos(request):
     
     return render(request, 'productos.html', contexto)
 
+@login_required
+def get_user(request):
+    user_id = request.user.id
+    return user_id
+
 def compra(request):
+    id = get_user(request)
+    print('######## ID => ',id)
     if request.method == 'POST':
         print(request.POST)
         cantidad = int(request.POST['cantidad'])
         producto_id = int(request.POST['producto'])
-
         producto = Producto.objects.get(pk=producto_id)
-        
         total = cantidad * producto.precio
 
-        compra_nuevo = Detalle(id_productos=producto, cantidad=cantidad, total_detalle=total)
+        compra_nuevo = Detalle(id_productos=producto, cantidad=cantidad, total_detalle=total, usuario_id=id)
         compra_nuevo.save()   
         
   
@@ -130,7 +139,19 @@ def compra(request):
         
     return redirect('listar_productos')
 
+def ver_pedidos(request):
+    pedidos = Pedido.objects.all()
+    return render(request, 'ver_pedidos.html', {'pedidos': pedidos})
 
-
-
-
+def historial_compras(request):
+    # Obtener el historial de compras y el estado del pedido para el usuario actual
+    id = get_user(request)
+    historial = Detalle.objects.filter(usuario_id=id)
+    estado_pedido = Pedido.objects.filter(id_cliente_id=id)
+    
+    # Obtener el nombre del producto de cada pedido en el historial
+    nombres_productos = [detalle.id_productos.nombre for detalle in historial]
+    print(f'Nombre del producto: {nombres_productos}')
+    
+    # Renderizar el template y pasar los datos del historial y estado del pedido
+    return render(request, 'historial.html', {'historial': historial, 'estado_pedido': estado_pedido, 'nombres_productos': nombres_productos})

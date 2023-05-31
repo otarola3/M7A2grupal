@@ -24,6 +24,7 @@
       
       {% if user.is_authenticated %}
       <li class="navbar-item mr-nav"><a class="navbar-link" href="{% url 'listar_productos' %}">Productos</a></li>
+      <li class="navbar-item mr-nav"><a class="navbar-link" href="{% url 'historial' %}">Historial</a></li> 
       <li class="navbar-item mr-nav"><a class="navbar-link" href="{% url 'logout' %}">salir</a></li>  
       {% endif %}
    

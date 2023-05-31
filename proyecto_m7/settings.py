@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'proyecto_m7.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'prueba6',
+        'NAME': 'prueba7',
         'USER': 'postgres',
         'PASSWORD': '12345',
         'HOST': 'localhost',

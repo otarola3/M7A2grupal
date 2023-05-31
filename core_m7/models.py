@@ -10,7 +10,6 @@ class Imagen(models.Model):
     def __str__(self):
         return self.nombre
 
-
 class DatosUsuarioExtra(models.Model):
    id_user = models.OneToOneField(User, on_delete=models.CASCADE)
    rut = models.TextField()
@@ -63,20 +62,7 @@ class Estado(models.Model):
     def __str__(self):
         return self.nombre
     
-class Pedido(models.Model):
-    id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
-    id_estado = models.ForeignKey(Estado, on_delete=models.CASCADE, verbose_name="Estado")
-    fecha = models.DateField(verbose_name="Fecha")
 
-    
-    class Meta:
-        verbose_name = "Pedido"
-        verbose_name_plural = "Pedidos"
-        ordering = ["-fecha"]
-        
-    def __str__(self):
-        return str(self.id_cliente)
-    
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -97,8 +83,9 @@ class Producto(models.Model):
             return self.imagen.imagen.url
         return None
     
-
 class Detalle(models.Model):
+    id = models.AutoField(primary_key=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     id_productos = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name="Producto")
     cantidad = models.IntegerField(verbose_name="Cantidad")
     total_detalle = models.IntegerField(verbose_name="Total")
@@ -109,11 +96,31 @@ class Detalle(models.Model):
         ordering = ["-cantidad"]
     
     def __str__(self):
-        return str(self.id_pedido)
-    
-    
-    
-    
+        return f"Detalle {self.id} ------ Producto: {self.id_productos_id} ------ Cantidad: {self.cantidad} -------- Total: {self.total_detalle}"
+
+class Pedido(models.Model):
+    ESTADO_CHOICES = (
+        ('Pendiente', 'Pendiente'),
+        ('En proceso', 'En proceso'),
+        ('Completado', 'Completado'),
+        ('Cancelado', 'Cancelado'),
+    )
+
+    id_cliente = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Cliente")
+    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')
+    fecha = models.DateField(verbose_name="Fecha")
+    detalle = models.ForeignKey(Detalle, on_delete=models.CASCADE)
+
+
+    class Meta:
+        verbose_name = "Pedido"
+        verbose_name_plural = "Pedidos"
+        ordering = ["-fecha"]
+        
+    def __str__(self):
+        return str(self.id_cliente)
+
+
 
     
 

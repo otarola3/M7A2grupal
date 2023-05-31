@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo %}Ver Pedidos{% endblock %}
+
+{% block contenido %}
+
+<section>
+    <h1>Listado de Pedidos</h1>
+    <ul>
+        {% for pedido in pedidos %}
+            <li>
+                <p>ID: {{ pedido.id }}</p>
+                <p>Cliente: {{ pedido.id_cliente }}</p>
+                <p>Estado: {{ pedido.get_estado_display }}</p>
+                <p>Fecha: {{ pedido.fecha }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
+

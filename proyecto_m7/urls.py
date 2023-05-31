@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core_m7.views import index_welcome, BienvenidaView, register, listar_productos, compra
+from core_m7.views import index_welcome, BienvenidaView, register, listar_productos, compra, ver_pedidos, historial_compras
 from django.contrib.auth import views
 from django.conf import settings
 
@@ -31,12 +31,8 @@ urlpatterns = [
     path('registro/', register, name='registro'),
     path('productos/', listar_productos, name='listar_productos'),
     path('compra/', compra, name='compra'),
-    
-
- 
-
-  
-    
+    path('pedidos/', ver_pedidos, name='ver_pedidos'),
+    path('historial/', historial_compras, name='historial'),
 ]
 
 if settings.DEBUG:

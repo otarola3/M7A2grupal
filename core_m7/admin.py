@@ -10,9 +10,14 @@ class ClienteAdmin(admin.ModelAdmin):
    list_display = ('id_user', 'credito')
    
 class PedidoAdmin(admin.ModelAdmin):
-   list_display = ('id_cliente','id', 'id_estado')
-     
+    list_display = ('id_cliente', 'get_estado', 'fecha')
+
+    def get_estado(self, obj):
+        return obj.estado
     
+    get_estado.short_description = 'Estado'
+
+
 admin.site.register(Usuario)
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Estado)
