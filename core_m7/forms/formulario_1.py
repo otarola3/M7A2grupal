@@ -43,3 +43,7 @@ class RegistrationForm(forms.Form):
    
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('username', 'first_name', 'last_name', 'rut','email', 'group')
+
+class CompraForm(forms.Form):
+    cantidad = forms.IntegerField(min_value=0, label="cantidad", required=True, widget=forms.NumberInput(attrs={'placeholder': 'Ingrese cantidad'}))
+    producto_id = forms.HiddenInput()

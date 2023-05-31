@@ -7,18 +7,31 @@
         <h2>Productos disponibles</h2>
         <div class="row">
             {% for producto in productos %}
-            <div class="col-sm-4 mt-2 mb-2 mr- 2 ml-2">
-                <div class="card text-center mt-t" style="width: 400px; height: 400px;">
-                    <img src="{% get_media_prefix %}{{ producto.imagen }}" style="width: 300px; height: 200px;">
+            <div class="col-md-4 mt-2">
+                <div class="card mt-top" style="width: 400px; height: 450px;">
+                    
+                    <img src="{% get_media_prefix %}{{ producto.imagen }}" style="width: 250px; height: 150px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ producto.nombre }}</h5>
                         <p class="card-text">{{ producto.descripcion }}</p>
                         <p class="card-text">{{ producto.precio }}</p>
+                        <form method="post" action="{% url 'compra' %}">
+                            {% csrf_token %}
+                            <div class="row mb-2">
+                                <div class="col-sm" text-left> 
+                                <input type="number" id="cantidad" name="cantidad" min="0">
+                                <input type="hidden" name="producto" value="{{ producto.id }}">
+                                <input type="hidden" name="producto_precio" value="{{ producto.precio }}">
+                                </div>
+                            </div>
+                            <button class = "mt-4" type="submit">Agregar Producto</button>
+                        </form>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+
     </div>
 </section>
 {% endblock %}

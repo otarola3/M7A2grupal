@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.contrib.auth.models import User, Group
-from core_m7.forms.formulario_1 import LoginForm, RegistrationForm
-from django.contrib.auth import authenticate, login, logout
-from .models import Cliente, Producto
+from core_m7.forms.formulario_1 import LoginForm, RegistrationForm, CompraForm
+from django.contrib.auth import authenticate, login
+from .models import Cliente, Producto, Detalle
 from django.http import HttpResponse
 from django.core import mail
 import random
@@ -16,13 +16,8 @@ connection.open()
 def index_welcome(request):
     return render(request, 'welcome.html')
 
-
 class BienvenidaView(TemplateView):
     template_name = "bienvenida_login.html"
-    
-class TareasView(TemplateView):
-    template_name = "tareas.html"
-    
     
 def user_login(request):
     if request.method == 'POST':
@@ -55,12 +50,9 @@ def generate_random_password():
     password = "".join(random.choice(caracter) for i in range(6))
     return password
 
-
 def register(request):
-   
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        
         
         if form.is_valid():
             username = form.cleaned_data["username"]
@@ -110,13 +102,35 @@ def register(request):
     
     return render(request, 'registro.html', {'form': form})
 
-
 def listar_productos(request):
-    print('Antes de extraer producto')
-    productos = Producto.objects.all()  # Obtener los primeros 5 productos disponibles
-    print('Despues de extraer producto')
-    print(productos)
+    productos = Producto.objects.all()  # Obtener los primeros 5 productos disponibles)
     contexto = {'productos': productos}
+    
     return render(request, 'productos.html', contexto)
+
+def compra(request):
+    if request.method == 'POST':
+        print(request.POST)
+        cantidad = int(request.POST['cantidad'])
+        producto_id = int(request.POST['producto'])
+
+        producto = Producto.objects.get(pk=producto_id)
+        
+        total = cantidad * producto.precio
+
+        compra_nuevo = Detalle(id_productos=producto, cantidad=cantidad, total_detalle=total)
+        compra_nuevo.save()   
+        
+  
+        # Aquí puedes realizar las acciones necesarias con los datos de la compra
+        
+        print(f"Cantidad: {cantidad}")
+        print(f"Producto ID: {producto_id}")
+        print(f"Total: {total}")
+        
+    return redirect('listar_productos')
+
+
+
 
 

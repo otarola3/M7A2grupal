@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core_m7.views import index_welcome, BienvenidaView, register, listar_productos
+from core_m7.views import index_welcome, BienvenidaView, register, listar_productos, compra
 from django.contrib.auth import views
 from django.conf import settings
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_welcome, name="index"),
@@ -26,7 +29,13 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('bienvenida_login/', BienvenidaView.as_view(), name='bienvenida'),
     path('registro/', register, name='registro'),
-    path('productos/', listar_productos, name='listar_productos')
+    path('productos/', listar_productos, name='listar_productos'),
+    path('compra/', compra, name='compra'),
+    
+
+ 
+
+  
     
 ]
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Imagen(models.Model):
     nombre = models.CharField(max_length=100)
@@ -66,7 +67,7 @@ class Pedido(models.Model):
     id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name="Cliente")
     id_estado = models.ForeignKey(Estado, on_delete=models.CASCADE, verbose_name="Estado")
     fecha = models.DateField(verbose_name="Fecha")
- 
+
     
     class Meta:
         verbose_name = "Pedido"
@@ -80,8 +81,9 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=8, decimal_places=2)
-    imagen = imagen = models.ImageField(verbose_name='imagenes', upload_to='imagen_producto/')  # Relación con el modelo Imagen
-
+    imagen = models.ImageField(verbose_name='imagenes', upload_to='imagen_producto/')  # Relación con el modelo Imagen
+    stock = models.IntegerField(verbose_name='stock', default=0)
+    
     class Meta:
         verbose_name = "Producto"
         verbose_name_plural = "Productos"
@@ -98,7 +100,6 @@ class Producto(models.Model):
 
 class Detalle(models.Model):
     id_productos = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name="Producto")
-    id_pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, verbose_name="Pedido")
     cantidad = models.IntegerField(verbose_name="Cantidad")
     total_detalle = models.IntegerField(verbose_name="Total")
    
