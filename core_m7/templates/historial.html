@@ -16,7 +16,7 @@
 <h2>Estado de los pedidos:</h2>
 <ul>
     {% for pedido in estado_pedido %}
-        <li>{{ pedido.estado }} - {{ pedido.fecha }}</li>
+        <li>Estado: {{ pedido.estado }} - Fecha actualización: {{ pedido.fecha }}</li>
     {% empty %}
         <li>No hay pedidos registrados</li>
     {% endfor %}
